@@ -12,7 +12,6 @@ pipeline {
             steps {
                 // Perform a shallow clone
             git branch: 'main',
-            credentialsId: 'jenkins-secret',
             url: 'https://github.com/shreya0522/c-360-final.git'
             }
         }
@@ -37,7 +36,7 @@ pipeline {
             steps {
                 script {
                     // Checkout the code from the latest tag
-                    checkout([$class: 'GitSCM', branches: [[name: "${LATEST_TAG}"]], userRemoteConfigs: [[url: 'https://github.com/shreya0522/c-360-update.git']]])
+                    checkout([$class: 'GitSCM', branches: [[name: "${LATEST_TAG}"]], userRemoteConfigs: [[url: 'https://github.com/shreya0522/c-360-final.git']]])
                 }
             }
         }
