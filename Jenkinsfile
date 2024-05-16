@@ -13,7 +13,7 @@ pipeline {
                 // Perform a shallow clone
             git branch: 'main',
             credentialsId: 'jenkins-secret',
-            url: 'https://github.com/shreya0522/c-360-update.git'
+            url: 'https://github.com/shreya0522/c-360-final.git'
             }
         }
         
