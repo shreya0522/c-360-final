@@ -17,25 +17,21 @@ pipeline {
         }
         
         stage('Fetch Latest Tag') {
-    steps {
-        script {
-            // Fetch tags explicitly
-            sh 'git fetch --tags'
-            // List all tags for debugging
-            sh 'git tag'
-            try {
-                // Fetch the latest tag from the Git repository and store it in the LATEST_TAG variable
-                LATEST_TAG = sh(script: 'git describe --abbrev=0 --tags', returnStdout: true).trim()
-            } catch (Exception e) {
-                // Handle the case where no tags are found
-                echo "No tags found in the repository."
-                // Set a default value for LATEST_TAG
-                LATEST_TAG = 'NoTag'
+            steps {
+                script {
+                    // Fetch all tags from the Git repository
+                    sh 'git fetch --tags'
+                    
+                    // Get the list of tags sorted by commit date in descending order
+                    def tagList = sh(script: 'git tag --sort=-creatordate', returnStdout: true).trim().split('\n')
+                    
+                    // Extract the latest tag
+                    LATEST_TAG = tagList.head()
+                    
+                    echo "Latest tag: ${LATEST_TAG}"
+                }
             }
-            echo "Latest tag: ${LATEST_TAG}"
         }
-    }
-}
         
         stage('Checkout Latest Tag') {
             steps {
